@@ -242,6 +242,10 @@ class Executor:
                 run_data.run.finished_at = datetime.now(timezone.utc)
                 await self._emit(RunFailedEvent(run=run_data.run))
                 self.logger.exception("Run failed")
+            finally:
+                self.watcher.cancel()
+                self.task = None
+                self.watcher = None
 
     async def _execute_agent(
         self,
