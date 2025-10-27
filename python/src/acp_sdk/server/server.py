@@ -6,7 +6,7 @@ import os
 import re
 from collections.abc import AsyncGenerator, Awaitable
 from contextlib import asynccontextmanager
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 
 import requests
 import uvicorn
@@ -77,7 +77,7 @@ class Server:
         port: int = 8000,
         uds: str | None = None,
         fd: int | None = None,
-        loop: uvicorn.config.LoopSetupType = "auto",
+        loop: Literal["none", "auto", "asyncio", "uvloop"] = "auto",
         http: type[asyncio.Protocol] | uvicorn.config.HTTPProtocolType = "auto",
         ws: type[asyncio.Protocol] | uvicorn.config.WSProtocolType = "auto",
         ws_max_size: int = 16 * 1024 * 1024,
@@ -218,7 +218,7 @@ class Server:
         port: int = 8000,
         uds: str | None = None,
         fd: int | None = None,
-        loop: uvicorn.config.LoopSetupType = "auto",
+        loop: Literal["none", "auto", "asyncio", "uvloop"] = "auto",
         http: type[asyncio.Protocol] | uvicorn.config.HTTPProtocolType = "auto",
         ws: type[asyncio.Protocol] | uvicorn.config.WSProtocolType = "auto",
         ws_max_size: int = 16 * 1024 * 1024,
