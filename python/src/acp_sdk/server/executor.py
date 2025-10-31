@@ -220,12 +220,13 @@ class Executor:
                             raise TypeError("Invalid yield")
             except StopAsyncIteration:
                 await flush_message()
-                run_data.run.status = RunStatus.COMPLETED
-                run_data.run.finished_at = datetime.now(timezone.utc)
                 try:
                     await self._record_session(session_history)
                 except Exception as e:
                     self.logger.warning(f"Failed to record session: {e}")
+
+                run_data.run.status = RunStatus.COMPLETED
+                run_data.run.finished_at = datetime.now(timezone.utc)
                 await self._emit(RunCompletedEvent(run=run_data.run))
                 self.logger.info("Run completed")
             except asyncio.CancelledError:
